@@ -24,7 +24,7 @@ namespace Billy
             _moveChecker = moveChecker;
         }
 
-        public int[] DecideMove(List<GridCell> grid, string color)
+        public MoveSet DecideMove(List<GridCell> grid, string color)
         {
             _grid = grid;
             _billysColor = color;
@@ -90,7 +90,7 @@ namespace Billy
                 _grid = UpdateGrid.RevertHistory(_grid);
             }
 
-            return ConvertMoveSetToIntArray(PickBestMove(AllBestMoves));
+            return PickBestMove(AllBestMoves);
         }
 
         private MoveSet PickBestMove(List<MoveSet> AllBestMoves)
@@ -107,11 +107,6 @@ namespace Billy
                 selected = move[0];
             }
             return selected;
-        }
-
-        private int[] ConvertMoveSetToIntArray(MoveSet move)
-        {
-            return new int[3] { move.Piece.Id, move.XCoord, move.YCoord };
         }
 
         private MoveSet FindBestMoveForColor(List<GridCell> grid)
@@ -212,14 +207,6 @@ namespace Billy
                 }
             }
             return moveSets;
-        }
-
-        private class MoveSet
-        {
-            public int Score { get; set; }
-            public Piece Piece { get; set; }
-            public int XCoord { get; set; }
-            public int YCoord { get; set; }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ConsoleView.View
 {
     public class UI
     {
-        public void PrintRound(int roundNumber, List<GridCell> gridCells)
+        public void Print(int roundNumber, List<GridCell> gridCells)
         {
             Console.WriteLine();
             Console.WriteLine();

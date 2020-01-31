@@ -30,30 +30,29 @@ namespace ConsoleView
             RoundNumber = 1;
             while (true)
             {    
-                Ui.PrintRound(RoundNumber, Board.Grid);         
+                Ui.Print(RoundNumber, Board.Grid);         
                 Ui.WriteTurn(Board.IsWhitesTurn());
-
-                int id;
-                int x;
-                int y;
+          
                 if (!Board.IsWhitesTurn())
                 {
                     Ui.PressKeyToContinue();
-                    var move = Billy.DecideMove(Board.Grid, "Black");
-                    id = move[0];
-                    x = move[1];
-                    y = move[2];
+                    var billysMove = Billy.DecideMove(Board.Grid, "Black");
+                    LetPlayerMovePiece(billysMove.Piece.Id, billysMove.XCoord, billysMove.YCoord);
                 }
                 else
                 {
-                    id = Ui.GetIntInput("Id:");
-                    x = Ui.GetIntInputToEight("X:");
-                    y = Ui.GetIntInputToEight("Y:");
+                    LetPlayerMovePiece(
+                        Ui.GetIntInput("Id:"),
+                        Ui.GetIntInputToEight("X:"),
+                        Ui.GetIntInputToEight("Y:"));
                 }
-
-                if (Board.MakeMove(id, x, y))
-                    RoundNumber++;
             }
+        }
+
+        private void LetPlayerMovePiece(int id, int x, int y)
+        {
+            if (Board.MakeMove(id, x, y))
+                RoundNumber++;
         }
     }
 }
