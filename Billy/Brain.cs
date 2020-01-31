@@ -29,7 +29,7 @@ namespace Billy
         {
             _billysColor = color;
             _grid = grid;
-            List<GridCell> billyPieces = grid.GridMap.FindAll(x => x.Piece != null && x.Piece.Color == color);
+            List<GridCell> billyPieces = grid.GetAllByColor(color);
 
             List<MoveSet> AllBestMoves = new List<MoveSet>();
             foreach (var p in billyPieces)
@@ -46,7 +46,7 @@ namespace Billy
 
                 grid.MovePiece(highestScoredMove.Piece.Id, highestScoredMove.XCoord, highestScoredMove.YCoord);
 
-                List<GridCell> op1 = grid.GridMap.FindAll(x => x.Piece != null && x.Piece.Color != color);
+                List<GridCell> op1 = grid.GetAllByOppositeColor(color);
                 MoveSet obm1 = FindBestMoveForColor(op1);
                 if (obm1.Score == -1)
                 {
@@ -58,13 +58,13 @@ namespace Billy
                 grid.MovePiece(obm1.Piece.Id, obm1.XCoord, obm1.YCoord);
                 highestScoredMove.Score -= (obm1.Score / 2);
 
-                List<GridCell> bp1 = grid.GridMap.FindAll(x => x.Piece != null && x.Piece.Color == color);
+                List<GridCell> bp1 = grid.GetAllByColor(color);
                 MoveSet bbm1 = FindBestMoveForColor(bp1);
                 if (bbm1.Score == -1) continue;
                 grid.MovePiece(bbm1.Piece.Id, bbm1.XCoord, bbm1.YCoord);
                 highestScoredMove.Score += bbm1.Score;
 
-                List<GridCell> op2 = grid.GridMap.FindAll(x => x.Piece != null && x.Piece.Color != color);
+                List<GridCell> op2 = grid.GetAllByOppositeColor(color);
                 MoveSet obm2 = FindBestMoveForColor(op2);
                 if (obm2.Score == -1)
                 {
@@ -78,7 +78,7 @@ namespace Billy
                 grid.MovePiece(obm2.Piece.Id, obm2.XCoord, obm2.YCoord);
                 highestScoredMove.Score -= (obm2.Score / 2);
 
-                List<GridCell> bp2 = grid.GridMap.FindAll(x => x.Piece != null && x.Piece.Color == color);
+                List<GridCell> bp2 = grid.GetAllByColor(color);
                 MoveSet bbm2 = FindBestMoveForColor(bp2);
                 if (bbm2.Score == -1) continue;
                 highestScoredMove.Score += bbm2.Score / 2;
@@ -149,7 +149,7 @@ namespace Billy
                 {
                     m.Score += 300;
                 }
-                var capturedCell = _grid.GridMap.FirstOrDefault(x => x.XCoord == m.XCoord && x.YCoord == m.YCoord);
+                var capturedCell = _grid.GetByCoords(m.XCoord, m.YCoord);
                 if (capturedCell.Piece != null)
                 {
                     switch (capturedCell.Piece.Type)
@@ -186,12 +186,12 @@ namespace Billy
             {
                 for (int x = 1; x <= 8; x++)
                 {
-                    if (_moveChecker.ValidMove(_grid.GridMap, cell.Piece.Id, y, x))
+                    if (_moveChecker.ValidMove(_grid, cell.Piece.Id, y, x))
                     {
                         _grid.MovePiece(cell.Piece.Id, x, y);
-                        var piece = _grid.GridMap.FirstOrDefault(c => c.XCoord == x && c.YCoord == y && c.Piece != null).Piece;
-                        var king = _grid.GridMap.FirstOrDefault(k => k.Piece != null && k.Piece.Color == piece.Color && k.Piece.Type == PieceType.type.King);
-                        if (!_checkChecker.CheckForCheck(_grid.GridMap, king.Piece.Id, king.XCoord, king.YCoord))
+                        var piece = _grid.GetByCoords(x, y).Piece;
+                        var king = _grid.GetKingByColor(piece.Color);
+                        if (!_checkChecker.CheckForCheck(_grid, king.Piece.Id, king.XCoord, king.YCoord))
                         {
                             MoveSet move = new MoveSet()
                             {

@@ -9,6 +9,6 @@ namespace Logic.MovementLogic.Interfaces
 {
     public interface IMoveChecker
     {
-      bool ValidMove(List<GridCell> grid, int id, int newY, int newX);
+      bool ValidMove(Grid grid, int id, int newY, int newX);
     }
 }

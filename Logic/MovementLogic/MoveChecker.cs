@@ -9,24 +9,21 @@ namespace Logic.MovementLogic
 {
     public class MoveChecker : IMoveChecker
     {
-        public bool ValidMove(List<GridCell> grid, int id, int newY, int newX)
+        public bool ValidMove(Grid grid, int id, int newY, int newX)
         {
-            if (newY > 8 || newX > 8 || newX < 1 || newY < 1)
-            {
-                return false;
-            }
+            if (grid is null)
+                throw new NullReferenceException(nameof(grid));
 
-            GridCell cell = grid.FirstOrDefault(x =>x.Piece != null && x.Piece.Id == id);
+            if (newY > 8 || newX > 8 || newX < 1 || newY < 1)
+                return false;
+
+            GridCell cell = grid.GetByPieceId(id);
 
             if(cell == null)
-            {
                 throw new Exception("No cell found at line 21 in MoveChecker");
-            }
 
             if (CheckForByColor(grid, newY, newX, cell.Piece.Color))
-            {
                 return false;
-            }
 
             switch (cell.Piece.Type)
             {
@@ -47,32 +44,18 @@ namespace Logic.MovementLogic
             throw new Exception("No valid cell.Piece.Type was provided. Switch Statement at 27 in MoveChecker");
         }
 
-        private bool CheckForByColor(List<GridCell> grid, int yCoord, int xCoord, string color)
+        private bool CheckForByColor(Grid grid, int yCoord, int xCoord, string color)
         {
-            var foundCell = grid.FirstOrDefault(c => c.XCoord == xCoord && c.YCoord == yCoord);
-            if (foundCell.Piece != null && foundCell.Piece.Color == color)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var foundCell = grid.GetByCoords(xCoord, yCoord);
+            return foundCell.Piece != null && foundCell.Piece.Color == color;
         }
 
-        private bool CheckForAny(List<GridCell> grid, int yCoord, int xCoord)
+        private bool CheckForAny(Grid grid, int yCoord, int xCoord)
         {
-            if (grid.Any(c => c.Piece != null && c.XCoord == xCoord && c.YCoord == yCoord))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return grid.GetByCoords(xCoord, yCoord).Piece != null;
         }
 
-        private bool RookMoveSet(List<GridCell> grid, GridCell cell, int newY, int newX)
+        private bool RookMoveSet(Grid grid, GridCell cell, int newY, int newX)
         {      
             if (newX == cell.XCoord && newY != cell.YCoord)
             {
@@ -104,7 +87,7 @@ namespace Logic.MovementLogic
             return false;
         }
 
-        private bool QueenMoveSet(List<GridCell> grid, GridCell cell, int newY, int newX)
+        private bool QueenMoveSet(Grid grid, GridCell cell, int newY, int newX)
         {
             if (newX == cell.XCoord && newY != cell.YCoord)
             {
@@ -174,7 +157,7 @@ namespace Logic.MovementLogic
             return true;                
         }
 
-        private bool KnightMoveSet(List<GridCell> grid, GridCell cell, int newY, int newX)
+        private bool KnightMoveSet(Grid grid, GridCell cell, int newY, int newX)
         {
             if ((Math.Abs(newY - cell.YCoord) == 2) && (Math.Abs(newX - cell.XCoord) == 1))
             {
@@ -187,7 +170,7 @@ namespace Logic.MovementLogic
             return false;
         }
 
-        private bool BishopMoveSet(List<GridCell> grid, GridCell cell, int newY, int newX)
+        private bool BishopMoveSet(Grid grid, GridCell cell, int newY, int newX)
         {
             int xDifference = Math.Abs(newX - cell.XCoord);
             if (xDifference == 0) return false;
@@ -225,7 +208,7 @@ namespace Logic.MovementLogic
             return true;
         }
 
-        private bool KingMoveSet(List<GridCell> grid, GridCell cell, int newY, int newX)
+        private bool KingMoveSet(Grid grid, GridCell cell, int newY, int newX)
         {
             if (Math.Abs(newY - cell.YCoord) <= 1 && Math.Abs(newX - cell.XCoord) <= 1)
             {
@@ -237,7 +220,7 @@ namespace Logic.MovementLogic
             }
         }
 
-        private bool PawnMoveSet(List<GridCell> grid, GridCell cell, int newY, int newX)
+        private bool PawnMoveSet(Grid grid, GridCell cell, int newY, int newX)
         {
             if (cell.Piece.Color == "Black")
             {

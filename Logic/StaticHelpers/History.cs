@@ -16,11 +16,11 @@ namespace Logic.StaticHelpers
         {
             _history = new List<HistoryNode>();
         }
-        public void Add(List<GridCell> grid, int pieceId, int newX, int newY)
-        {
 
-            var invadingCell = grid.FirstOrDefault(x => x.Piece != null && x.Piece.Id == pieceId);
-            var capturedCell = grid.FirstOrDefault(x => x.XCoord == newX && x.YCoord == newY);
+        public void Add(GridCell capturedCell, GridCell invadingCell)
+        {
+            //var invadingCell = grid.FirstOrDefault(x => x.Piece != null && x.Piece.Id == pieceId);
+            //var capturedCell = grid.FirstOrDefault(x => x.XCoord == newX && x.YCoord == newY);
 
             Piece invadingPiece = new Piece()
             {

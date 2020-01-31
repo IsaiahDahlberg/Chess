@@ -18,10 +18,10 @@ namespace Logic.MovementLogic
             _moveChecker = checker;
         }
 
-        public bool CheckForCheck(List<GridCell> grid, int kingId, int kingX, int kingY)
+        public bool CheckForCheck(Grid grid, int kingId, int kingX, int kingY)
         {
-            string color = grid.FirstOrDefault(x => x.Piece != null && x.Piece.Id == kingId).Piece.Color;
-            foreach (var p in grid)
+            string color = grid.GetByPieceId(kingId).Piece.Color;
+            foreach (var p in grid.Map)
             {
                 if (p.Piece != null && p.Piece.Color != color)
                 {
@@ -34,7 +34,7 @@ namespace Logic.MovementLogic
             return false;
         }
 
-        public bool CheckMate(List<GridCell> grid, int kingId, int kingX, int kingY)
+        public bool CheckMate(Grid grid, int kingId, int kingX, int kingY)
         {
             if (!CheckForCheck(grid, kingId, kingX, kingY))
             {
@@ -46,7 +46,7 @@ namespace Logic.MovementLogic
             return CheckAllPiecesForCheckMate(grid, kingId);
         }
 
-        private bool KingsPossibleMoves(List<GridCell> grid, int kingId, int kingX, int kingY)
+        private bool KingsPossibleMoves(Grid grid, int kingId, int kingX, int kingY)
         {
             List<int[]> possibleMoves = new List<int[]>()
             {
@@ -73,10 +73,10 @@ namespace Logic.MovementLogic
             return true;
         }
 
-        private bool CheckAllPiecesForCheckMate(List<GridCell> grid, int kingId)
+        private bool CheckAllPiecesForCheckMate(Grid grid, int kingId)
         {
-            string color = grid.FirstOrDefault(x => x.Piece != null && x.Piece.Id == kingId).Piece.Color;
-            List<GridCell> colorPieces = grid.FindAll(x => x.Piece != null && x.Piece.Color == color);
+            string color = grid.GetByPieceId(kingId).Piece.Color;
+            List<GridCell> colorPieces = grid.GetAllByColor(color);
             foreach (var cell in colorPieces)
             {
                 for (int y = 1; y <= 8; y++)
@@ -85,7 +85,7 @@ namespace Logic.MovementLogic
                     {
                         if (_moveChecker.ValidMove(grid, cell.Piece.Id, y, x))
                         {
-                            var king = grid.FirstOrDefault(k => k.Piece != null && k.Piece.Color == cell.Piece.Color && k.Piece.Type == PieceType.type.King);
+                            var king = grid.GetKingByColor(cell.Piece.Color);
                             if (CheckForCheck(grid, king.Piece.Id, king.XCoord, king.YCoord))
                             {
                                 return false;

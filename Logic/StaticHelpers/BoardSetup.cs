@@ -10,13 +10,14 @@ namespace Logic.StaticHelpers
 {
     public static class BoardSetup
     {
-        private static int startingId = 0;
+        private static int startingId;
 
-        public static List<GridCell> CreateNewGrid()
+        public static List<GridCell> CreateGridCellList()
         {
+            startingId = 0;
             List<GridCell> grid = CreateGrid();
-            grid = SetPieces("Black", grid);
             grid = SetPieces("White", grid);
+            grid = SetPieces("Black", grid);
             return grid;
         }
 
