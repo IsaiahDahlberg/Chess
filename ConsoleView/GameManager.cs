@@ -20,8 +20,10 @@ namespace ConsoleView
         public GameManager()
         {
             Ui = new UI();
-            Board = new Board(LogicFactory.CreateIMoveChecker());
-            Billy = new Brain(new CheckChecker(new MoveChecker()), new MoveChecker());
+            var moveCheck = LogicFactory.CreateIMoveChecker();
+            var checkChecker = LogicFactory.CreateICheckChecker();
+            Board = new Board(moveCheck, checkChecker);
+            Billy = new Brain(checkChecker, moveCheck);
         }
 
         public void Run()
@@ -31,9 +33,9 @@ namespace ConsoleView
             while (true)
             {    
                 Ui.Print(RoundNumber, Board.Grid.Map);         
-                Ui.WriteTurn(Board.IsWhitesTurn());
+                Ui.WriteTurn(Board.WhitesTurn);
           
-                if (!Board.IsWhitesTurn())
+                if (!Board.WhitesTurn)
                 {
                     Ui.PressKeyToContinue();
                     var billysMove = Billy.DecideMove(Board.Grid, "Black");

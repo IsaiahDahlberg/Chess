@@ -52,8 +52,8 @@ namespace Logic
         {
             var node = _history.Revert();
 
-            Map.FirstOrDefault(x => x.XCoord == node.PreviousX && x.YCoord == node.PreviousY).Piece = node.InvadingPiece;
-            Map.FirstOrDefault(x => x.XCoord == node.ToX && x.YCoord == node.ToY).Piece = node.CapturedPiece;
+            GetByCoords(node.PreviousX, node.PreviousY).Piece = node.InvadingPiece;
+            GetByCoords(node.ToX, node.ToY).Piece = node.CapturedPiece;
         }
     }
 }

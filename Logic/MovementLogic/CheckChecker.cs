@@ -10,9 +10,10 @@ using System.Threading.Tasks;
 
 namespace Logic.MovementLogic
 {
-    public class CheckChecker
+    public class CheckChecker : ICheckChecker
     {
-        private IMoveChecker _moveChecker;
+        private readonly IMoveChecker _moveChecker;
+
         public CheckChecker(IMoveChecker checker)
         {
             _moveChecker = checker;
@@ -37,11 +38,10 @@ namespace Logic.MovementLogic
         public bool CheckMate(Grid grid, int kingId, int kingX, int kingY)
         {
             if (!CheckForCheck(grid, kingId, kingX, kingY))
-            {
                 return false;
-            }
 
-            if (!KingsPossibleMoves(grid, kingId, kingX, kingY)) return false;
+            if (!KingsPossibleMoves(grid, kingId, kingX, kingY)) 
+                return false;
 
             return CheckAllPiecesForCheckMate(grid, kingId);
         }

@@ -44,6 +44,7 @@
     <Compile Include="Board.cs" />
     <Compile Include="MovementLogic\CheckChecker.cs" />
     <Compile Include="MovementLogic\Interfaces\IMoveChecker.cs" />
+    <Compile Include="MovementLogic\Interfaces\ICheckChecker.cs" />
     <Compile Include="MovementLogic\LogicFactory.cs" />
     <Compile Include="MovementLogic\MoveChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -10,16 +10,16 @@ namespace Logic
 {
     public class Board
     {
+        private readonly IMoveChecker _moveChecker;
+        private readonly ICheckChecker _checkChecker; 
+
         public Grid Grid { get; private set; }
+        public bool WhitesTurn { get; private set; }
 
-        private IMoveChecker _moveChecker;
-        private CheckChecker _checkChecker; 
-        private static bool WhitesTurn = true;
-
-        public Board(IMoveChecker move)
+        public Board(IMoveChecker move, ICheckChecker checker)
         {
             _moveChecker = move;
-            _checkChecker = new CheckChecker(move);
+            _checkChecker = checker;
         }        
 
         public void SetBoard()
@@ -29,8 +29,8 @@ namespace Logic
 
         public bool MakeMove(int pieceId, int newX, int newY)
         {
-            string currentColorsTurn = WhitesTurn ? "White" : "Black";
-            string opponentsColor = WhitesTurn ? "Black" : "White";
+            var currentColorsTurn = WhitesTurn ? "White" : "Black";
+            var opponentsColor = WhitesTurn ? "Black" : "White";
 
             var cell = Grid.GetByPieceId(pieceId);
 
@@ -62,27 +62,13 @@ namespace Logic
         {
             var opponentking = Grid.GetKingByColor(opponentsColor);
             if (_checkChecker.CheckMate(Grid, opponentking.Piece.Id, opponentking.XCoord, opponentking.YCoord))
-            {
                 throw new Exception("Checkmate on " + opponentsColor);
-            }
         }
 
         private bool CheckForCheck(string currentColorsTurn)
         {
-            GridCell king = Grid.GetKingByColor(currentColorsTurn);
-            if (_checkChecker.CheckForCheck(Grid, king.Piece.Id, king.XCoord, king.YCoord))
-            {                
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            var king = Grid.GetKingByColor(currentColorsTurn);
+            return _checkChecker.CheckForCheck(Grid, king.Piece.Id, king.XCoord, king.YCoord);
         }
-
-        public bool IsWhitesTurn()
-        {
-            return WhitesTurn;
-        } 
     }
 }

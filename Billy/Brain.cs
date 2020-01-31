@@ -16,10 +16,10 @@ namespace Billy
     {
         private Grid _grid;
         private string _billysColor;
-        private CheckChecker _checkChecker;
+        private ICheckChecker _checkChecker;
         private IMoveChecker _moveChecker;
 
-        public Brain(CheckChecker checkChecker, IMoveChecker moveChecker)
+        public Brain(ICheckChecker checkChecker, IMoveChecker moveChecker)
         {
             _checkChecker = checkChecker;
             _moveChecker = moveChecker;

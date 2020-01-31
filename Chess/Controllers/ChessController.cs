@@ -12,7 +12,7 @@ namespace Chess.Controllers
     [RoutePrefix("api/chess")]
     public class ChessController : ApiController
     {
-        private Board _board = new Board(LogicFactory.CreateIMoveChecker());
+        private Board _board = new Board(LogicFactory.CreateIMoveChecker(), LogicFactory.CreateICheckChecker());
 
         [Route("Move/{id:int}/{x:int}/{y:int}")]
         [HttpGet]

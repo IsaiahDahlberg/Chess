@@ -9,9 +9,7 @@ namespace Logic.MovementLogic
 {
     public static class LogicFactory
     {
-        public static IMoveChecker CreateIMoveChecker()
-        {
-            return new MoveChecker();
-        } 
+        public static IMoveChecker CreateIMoveChecker() => new MoveChecker();
+        public static ICheckChecker CreateICheckChecker() => new CheckChecker(new MoveChecker());
     }
 }
