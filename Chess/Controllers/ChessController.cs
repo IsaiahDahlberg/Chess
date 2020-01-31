@@ -19,13 +19,13 @@ namespace Chess.Controllers
         public IHttpActionResult Move(int id, int x, int y)
         {
             _board.MakeMove(id, x, y);
-            return Ok(_board.GetGrid());
+            return Ok(_board.Grid);
         }
 
         [Route("getgrid")]
         public IHttpActionResult GetGrid()
         {
-            return Ok(_board.GetGrid());
+            return Ok(_board.Grid);
         }
 
         [Route("setBoard")] 
@@ -33,7 +33,7 @@ namespace Chess.Controllers
         public IHttpActionResult SetBoard()
         {
             _board.SetBoard();
-            return Ok(_board.GetGrid());
+            return Ok(_board.Grid);
         }
     }
 }

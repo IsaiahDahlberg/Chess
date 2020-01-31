@@ -12,7 +12,7 @@ namespace Logic.StaticHelpers
     {
         private static int startingId = 0;
 
-        public static List<GridCell> SetBoard()
+        public static List<GridCell> CreateNewGrid()
         {
             List<GridCell> grid = CreateGrid();
             grid = SetPieces("Black", grid);
@@ -26,7 +26,7 @@ namespace Logic.StaticHelpers
             for (int y = 1; y <= 8; y++)
             {
                 for (int x = 1; x <= 8; x++)
-                {                
+                {
                     GridCell cell = new GridCell()
                     {
                         XCoord = x,
@@ -79,14 +79,14 @@ namespace Logic.StaticHelpers
                     piece.Type = PieceType.type.Bishop;
                     break;
                 case 4:
-                    if(color == "White")
+                    if (color == "White")
                     {
                         piece.Type = PieceType.type.Queen;
                     }
                     else
                     {
                         piece.Type = PieceType.type.King;
-                    }                       
+                    }
                     break;
                 case 5:
                     if (color == "Black")

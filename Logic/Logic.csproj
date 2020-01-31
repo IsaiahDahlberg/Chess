@@ -49,7 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StaticHelpers\BoardSetup.cs" />
     <Compile Include="StaticHelpers\History.cs" />
-    <Compile Include="StaticHelpers\UpdateGrid.cs" />
+    <Compile Include="Grid.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -30,7 +30,7 @@ namespace ConsoleView
             RoundNumber = 1;
             while (true)
             {    
-                Ui.Print(RoundNumber, Board.Grid);         
+                Ui.Print(RoundNumber, Board.Grid.GridMap);         
                 Ui.WriteTurn(Board.IsWhitesTurn());
           
                 if (!Board.IsWhitesTurn())
