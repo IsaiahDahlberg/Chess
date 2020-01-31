@@ -12,7 +12,8 @@ namespace Logic
 {
     public class Board
     {
-        private static List<GridCell> _grid;
+        public List<GridCell> Grid { get; private set; }
+
         private IMoveChecker _moveChecker;
         private CheckChecker _checkChecker; 
         private static bool WhitesTurn = true;
@@ -25,7 +26,7 @@ namespace Logic
 
         public void SetBoard()
         {
-            _grid = BoardSetup.SetBoard();
+            Grid = BoardSetup.SetBoard();
         }
 
         public bool MakeMove(int pieceId, int newX, int newY)
@@ -33,7 +34,7 @@ namespace Logic
             string currentColorsTurn = WhitesTurn ? "White" : "Black";
             string opponentsColor = WhitesTurn ? "Black" : "White";
 
-            var cell = _grid.FirstOrDefault(k => k.Piece != null && k.Piece.Id == pieceId);
+            var cell = Grid.FirstOrDefault(k => k.Piece != null && k.Piece.Id == pieceId);
 
             if (cell == null)
             {
@@ -47,16 +48,16 @@ namespace Logic
                 return false;
             }
 
-            if (!_moveChecker.ValidMove(_grid, pieceId, newY, newX))
+            if (!_moveChecker.ValidMove(Grid, pieceId, newY, newX))
             {
                 return false;
             }
 
-            _grid = UpdateGrid.MovePiece(_grid, pieceId, newX, newY);
+            Grid = UpdateGrid.MovePiece(Grid, pieceId, newX, newY);
 
             if (CheckForCheck(currentColorsTurn))
             {
-                _grid = UpdateGrid.RevertHistory(_grid);
+                Grid = UpdateGrid.RevertHistory(Grid);
                 return false;
             }
 
@@ -69,8 +70,8 @@ namespace Logic
 
         private void CheckForCheckMate(string opponentsColor)
         {
-            var opponentking = _grid.FirstOrDefault(k => k.Piece != null && k.Piece.Color == opponentsColor && k.Piece.Type == Model.Pieces.PieceType.type.King);
-            if (_checkChecker.CheckMate(_grid, opponentking.Piece.Id, opponentking.XCoord, opponentking.YCoord))
+            var opponentking = Grid.FirstOrDefault(k => k.Piece != null && k.Piece.Color == opponentsColor && k.Piece.Type == Model.Pieces.PieceType.type.King);
+            if (_checkChecker.CheckMate(Grid, opponentking.Piece.Id, opponentking.XCoord, opponentking.YCoord))
             {
                 throw new Exception("Checkmate on " + opponentsColor);
             }
@@ -78,8 +79,8 @@ namespace Logic
 
         private bool CheckForCheck(string currentColorsTurn)
         {
-            GridCell king = _grid.FirstOrDefault(k => k.Piece != null && k.Piece.Color == currentColorsTurn && k.Piece.Type == Model.Pieces.PieceType.type.King);
-            if (_checkChecker.CheckForCheck(_grid, king.Piece.Id, king.XCoord, king.YCoord))
+            GridCell king = Grid.FirstOrDefault(k => k.Piece != null && k.Piece.Color == currentColorsTurn && k.Piece.Type == Model.Pieces.PieceType.type.King);
+            if (_checkChecker.CheckForCheck(Grid, king.Piece.Id, king.XCoord, king.YCoord))
             {                
                 return true;
             }
@@ -87,11 +88,6 @@ namespace Logic
             {
                 return false;
             }
-        }
-
-        public List<GridCell> GetGrid()
-        {
-            return _grid;
         }
 
         public bool IsWhitesTurn()

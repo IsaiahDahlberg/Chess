@@ -18,12 +18,16 @@ namespace Billy
         private CheckChecker _checkChecker;
         private IMoveChecker _moveChecker;
 
-        public int[] DecideMove(List<GridCell> grid, string color, CheckChecker checkChecker, IMoveChecker moveChecker)
+        public Brain(CheckChecker checkChecker, IMoveChecker moveChecker)
+        {
+            _checkChecker = checkChecker;
+            _moveChecker = moveChecker;
+        }
+
+        public int[] DecideMove(List<GridCell> grid, string color)
         {
             _grid = grid;
             _billysColor = color;
-            _checkChecker = checkChecker;
-            _moveChecker = moveChecker;
 
             List<GridCell> billyPieces = grid.FindAll(x => x.Piece != null && x.Piece.Color == color);
 

@@ -1,4 +1,6 @@
-﻿using ConsoleView.View;
+﻿using Billy;
+using ConsoleView.View;
+using Logic;
 using Logic.MovementLogic;
 using System;
 using System.Collections.Generic;
@@ -12,8 +14,8 @@ namespace ConsoleView
     {
         static void Main(string[] args)
         {
-            UI ui = new UI(new Logic.Board(LogicFactory.CreateIMoveChecker()));
-            ui.run();
+            GameManager gm = new GameManager();
+            gm.Run();
         }
     }
 }

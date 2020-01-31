@@ -12,8 +12,9 @@ namespace Logic.StaticHelpers
         private static History _history = new History();
         public static List<GridCell> MovePiece(List<GridCell> grid, int pieceId, int newX, int newY)
         {
-            _history.Add(grid, pieceId, newX, newY);            
+            _history.Add(grid, pieceId, newX, newY);
             var piece = grid.FirstOrDefault(x => x.Piece != null && x.Piece.Id == pieceId).Piece;
+            piece.HasMoved = true;                                 
             if(piece.Type == Model.Pieces.PieceType.type.Pawn && (newY == 1 || newY == 8))
             {
                 piece.Type = Model.Pieces.PieceType.type.Queen;

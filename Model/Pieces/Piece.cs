@@ -11,5 +11,6 @@ namespace Model.Pieces
         public int Id { get; set; }
         public string Color { get; set; }
         public PieceType.type Type { get; set; }
+        public bool HasMoved { get; set; } = false;
     }
 }

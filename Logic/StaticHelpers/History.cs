@@ -26,7 +26,8 @@ namespace Logic.StaticHelpers
             {
                 Color = invadingCell.Piece.Color,
                 Id = invadingCell.Piece.Id,
-                Type = invadingCell.Piece.Type
+                Type = invadingCell.Piece.Type,
+                HasMoved = invadingCell.Piece.HasMoved
             };
 
             HistoryNode node = new HistoryNode()

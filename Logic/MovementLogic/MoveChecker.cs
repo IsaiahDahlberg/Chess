@@ -4,8 +4,6 @@ using Model.Pieces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic.MovementLogic
 {
@@ -75,7 +73,7 @@ namespace Logic.MovementLogic
         }
 
         private bool RookMoveSet(List<GridCell> grid, GridCell cell, int newY, int newX)
-        {
+        {      
             if (newX == cell.XCoord && newY != cell.YCoord)
             {
                 int difference = Math.Abs(newY - cell.YCoord);
